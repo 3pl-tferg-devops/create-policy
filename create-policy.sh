@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#
+set -e
+
+get_policy_arn() {
+  local policy=$1
+
+  aws iam list-policies \
+      --only-attached \
+      --scope Local \
+      --query "Policies[*].Arn" \
+      --output text | tr "\t" "\n" | grep "$1"
+}
+
+get_policy_metadata() {
+  local arn="$1"
+
+  aws iam get-policy \
+    --policy-arn "$arn" \
+    --query "Policy.DefaultVersionId" \
+    --output text
+}
+
+get_policy_json() {
+  local arn="$1"
+  local version="$2"
+
+  aws iam get-policy-version \
+    --policy-arn "$arn" \
+    --version-id "$version" \
+    --query "PolicyVersion.Document"
+}
+
+main() {
+  local profile="$1"
+  local policy="$2"
+  local arn
+  local version
+
+  export AWS_PROFILE="$profile"
+  arn=$(get_policy_arn "$policy")
+  version=$(get_policy_metadata "$arn")
+  json=$(get_policy_json "$arn" "$version")
+  echo $json | iam-policy-json-to-terraform  > "${policy}.tf"
+}
+
+main "${@}"
