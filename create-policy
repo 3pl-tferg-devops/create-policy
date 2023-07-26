@@ -47,7 +47,7 @@ main() {
 }
 
 if [[ "${#}" -lt 2 ]]; then
-  echo "Usage: ./create-policy.sh <profile> <policy-name>"
+  echo "Usage: create-policy <aws-account> <iam-policy> # E.g. create-policy blake-staging blake-admin-policy"
 else
   main "${@}"
 fi
