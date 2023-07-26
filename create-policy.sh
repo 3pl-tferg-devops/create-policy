@@ -44,4 +44,8 @@ main() {
   echo $json | iam-policy-json-to-terraform  > "${policy}.tf"
 }
 
-main "${@}"
+if [[ "${#}" -lt 2 ]]; then
+  echo "Usage: ./create-policy.sh <profile> <policy-name>"
+else
+  main "${@}"
+fi
