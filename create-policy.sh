@@ -41,7 +41,7 @@ main() {
   arn=$(get_policy_arn "$policy")
   version=$(get_policy_metadata "$arn")
   json=$(get_policy_json "$arn" "$version")
-  echo $json | iam-policy-json-to-terraform  > "${policy}.tf"
+  echo "$json" | iam-policy-json-to-terraform  > "${policy}.tf"
 }
 
 if [[ "${#}" -lt 2 ]]; then
