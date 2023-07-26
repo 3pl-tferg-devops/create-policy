@@ -42,6 +42,8 @@ main() {
   version=$(get_policy_metadata "$arn")
   json=$(get_policy_json "$arn" "$version")
   echo "$json" | iam-policy-json-to-terraform  > "${policy}.tf"
+  sed -i "" "/.*sid.*= \"\"/d" "${policy}.tf"
+  sed -i "" "/.*effect.*= \"Allow\"/d" "${policy}.tf"
 }
 
 if [[ "${#}" -lt 2 ]]; then
