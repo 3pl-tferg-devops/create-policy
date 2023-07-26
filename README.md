@@ -7,7 +7,7 @@ The idea is to stick this script in your path and run it from the directory you 
 ## Usage
 
 ```bash
-create-policy blake-staging blake-admin-policy
+create-policy <aws-account> <iam-policy> # E.g. create-policy blake-staging blake-admin-policy
 ```
 
 ## Dependencies
